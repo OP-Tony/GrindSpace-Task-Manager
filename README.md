@@ -70,16 +70,28 @@ An iOS-inspired premium focus companion featuring offline-resilient utilities, l
 5. Open your browser and navigate to `http://localhost:3000`.
 
 ### 2. Docker Container Execution
-To compile and run the application within an isolated container:
+You can either pull the pre-compiled image directly from Docker Hub or build the image locally.
 
+#### Option A: Pull from Docker Hub (Recommended)
+1. Pull the public image:
+   ```bash
+   docker pull tony19027/grindspace:latest
+   ```
+2. Start the container:
+   ```bash
+   docker run -d -p 3000:3000 --env-file .env --name grindspace-app tony19027/grindspace:latest
+   ```
+
+#### Option B: Build Locally
 1. Build the Docker image:
    ```bash
    docker build -t grindspace .
    ```
-2. Start the container with your local env variables:
+2. Start the container:
    ```bash
    docker run -d -p 3000:3000 --env-file .env --name grindspace-app grindspace
    ```
+
 3. Visit `http://localhost:3000` to interact with the containerized application.
 
 ---
