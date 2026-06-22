@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrindSpace</title>
+  <!-- Google Fonts: Roboto and Product Sans look for Material 3 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Material 3 Top App Bar -->
+    <header class="top-app-bar">
+      <div class="app-bar-leading">
+        <div class="m3-logo">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+        <span class="app-title">GrindSpace</span>
+      </div>
+      
+      <div class="app-bar-trailing">
+        <!-- AI Grind Coach Toggle -->
+        <button id="coach-toggle" class="m3-icon-button" aria-label="Toggle Grind Coach" style="margin-right: 8px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </button>
+        <!-- Theme Toggle Switch -->
+        <button id="theme-toggle" class="m3-icon-button" aria-label="Toggle light/dark theme">
+          <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="m3-grid">
+
+      <!-- Column Left: Timer & Settings -->
+      <div class="m3-column col-left">
+        
+        <!-- Focus Card -->
+        <section class="m3-card focus-arena">
+          <div class="card-header">
+            <h2 class="card-headline">Focus Arena</h2>
+            <span id="session-badge" class="m3-badge">Session</span>
+          </div>
+
+          <div class="timer-wrapper">
+            <div class="timer-circle-container">
+              <!-- Material 3 Rounded Circle Tracker -->
+              <svg class="m3-progress-svg" viewBox="0 0 220 220" width="100%" height="100%">
+                <circle class="ring-bg" stroke="currentColor" stroke-width="6" fill="transparent" r="95" cx="110" cy="110"/>
+                <circle id="timer-progress" class="ring-fg" stroke="var(--md-sys-color-primary)" stroke-width="8" fill="transparent" r="95" cx="110" cy="110"/>
+              </svg>
+              <div class="timer-label-group">
+                <span id="timer-label">25:00</span>
+                <span id="timer-status">DEEP FOCUS</span>
+              </div>
+            </div>
+
+            <!-- Material 3 Media Control Bar -->
+            <div class="timer-actions-row">
+              <button id="btn-start" class="media-control-btn play" aria-label="Start session">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><polygon points="8 5 5 5 5 19 8 19 8 5"></polygon><polygon points="8 5 19 12 8 19 8 5"></polygon></svg>
+              </button>
+              <button id="btn-pause" class="media-control-btn pause" disabled aria-label="Pause session">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="4" x2="18" y2="20"></line><line x1="6" y1="4" x2="6" y2="20"></line></svg>
+              </button>
+              <button id="btn-skip" class="media-control-btn skip" aria-label="Skip session">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Soundscape Chips -->
+          <div class="m3-section">
+            <span class="m3-section-title">Ambient Sound</span>
+            <div class="chips-group">
+              <button class="m3-chip active" data-sound="none">Silent</button>
+              <button class="m3-chip" data-sound="rain">Rain</button>
+              <button class="m3-chip" data-sound="waves">Waves</button>
+              <button class="m3-chip" data-sound="white-noise">Noise</button>
+            </div>
+            
+            <div class="volume-slider-bar">
+              <svg class="vol-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+              <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5">
+            </div>
+          </div>
+        </section>
+
+        <!-- Preference Adaptability Card -->
+        <section class="m3-card adaptability-card">
+          <div class="card-header">
+            <h2 class="card-headline">Grind Settings</h2>
+          </div>
+
+          <div class="dropdowns-row">
+            <div class="m3-text-field">
+              <label for="pref-pomodoro">Focus Sprint</label>
+              <div class="select-box">
+                <select id="pref-pomodoro">
+                  <option value="25">25 Minutes</option>
+                  <option value="45">45 Minutes</option>
+                  <option value="50">50 Minutes</option>
+                  <option value="60">60 Minutes</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="m3-text-field">
+              <label for="pref-break">Break Time</label>
+              <div class="select-box">
+                <select id="pref-break">
+                  <option value="5">5 Minutes</option>
+                  <option value="10">10 Minutes</option>
+                  <option value="15">15 Minutes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-container">
+              <span id="metric-total-minutes" class="metric-number">0</span>
+              <span class="metric-label">Focus Mins</span>
+            </div>
+            <div class="metric-container">
+              <span id="metric-sessions" class="metric-number">0</span>
+              <span class="metric-label">Sessions</span>
+            </div>
+          </div>
+          
+          <div class="chart-wrapper">
+            <canvas id="analytics-chart"></canvas>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Column Right: Tasks & AI Schedule Planner -->
+      <div class="m3-column col-right">
+        
+        <!-- Tasks Card -->
+        <section class="m3-card tasks-card">
+          <div class="card-header-row">
+            <div>
+              <h2 class="card-headline">Tasks</h2>
+            </div>
+            <span id="task-count" class="m3-badge">0 Left</span>
+          </div>
+
+          <!-- Add Task Row -->
+          <form id="add-task-form" class="m3-input-row">
+            <input type="text" id="task-input" placeholder="Add a new task..." autocomplete="off">
+            <button type="submit" class="m3-icon-button primary-btn" aria-label="Add task">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+          </form>
+
+          <!-- Segmented Tab Button Control -->
+          <div class="segmented-control">
+            <div class="pill-indicator"></div>
+            <button class="segment-pill active" data-tab="up_next">Up Next</button>
+            <button class="segment-pill" data-tab="focusing">Focusing</button>
+            <button class="segment-pill" data-tab="done">Done</button>
+          </div>
+
+          <!-- Task List container -->
+          <div id="task-list" class="task-list-view">
+            <div class="empty-state">No tasks. Hit add to begin!</div>
+          </div>
+        </section>
+
+        <!-- Daily Planner Card -->
+        <section class="m3-card planner-card">
+          <div class="card-header">
+            <h2 class="card-headline">Daily Planner</h2>
+          </div>
+
+          <div id="planner-input-view" class="planner-box">
+            <textarea id="prompt-input" placeholder="Type your rough schedule (e.g. Code API routes at 9am, lunch at 12pm, gym at 5pm...)"></textarea>
+            <button id="btn-generate-plan" class="m3-button fill-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <span>Generate AI Plan</span>
+            </button>
+          </div>
+
+          <div id="planner-schedule-view" class="planner-schedule hidden">
+            <div class="schedule-head-row">
+              <h3>Structured Agenda</h3>
+              <button id="btn-reset-plan" class="m3-text-button">Reset</button>
+            </div>
+            <div id="schedule-list" class="schedule-list-view">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Audio Elements -->
+  <audio id="audio-rain" loop src="/assets/sounds/rain.mp3"></audio>
+  <audio id="audio-waves" loop src="/assets/sounds/waves.mp3"></audio>
+  <audio id="audio-white-noise" loop src="/assets/sounds/white-noise.mp3"></audio>
+
+  <!-- Toast notification container -->
+  <div id="toast-container"></div>
+
+  <!-- Coach Sidebar Backdrop Overlay -->
+  <div id="coach-backdrop" class="coach-backdrop"></div>
+
+  <!-- AI Grind Coach Sidebar Tray -->
+  <aside id="coach-sidebar" class="coach-sidebar-tray">
+    <div class="coach-sidebar-header">
+      <div class="coach-title-group">
+        <div class="coach-avatar-pulse"></div>
+        <h3>Grind Coach</h3>
+      </div>
+      <button id="btn-close-coach" class="coach-close-btn" aria-label="Close Coach Sidebar">&times;</button>
+    </div>
+    
+    <div id="coach-chat-window" class="coach-chat-log">
+      <div class="chat-bubble assistant">
+        Hey there! I am your Grind Coach. Ready to dominate your goals today? Ask me how to prioritize, stay focused, or block distractions!
+      </div>
+    </div>
+    
+    <form id="coach-chat-form" class="coach-input-row">
+      <input type="text" id="coach-chat-input" placeholder="Ask for advice..." autocomplete="off">
+      <button type="submit" class="m3-icon-button primary-btn" aria-label="Send message">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </form>
+  </aside>
+
+  <!-- Interactive ambient interactive background canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
