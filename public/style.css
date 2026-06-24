@@ -374,23 +374,24 @@ body::before {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.15;
   transition: opacity 0.4s ease;
   z-index: 2;
 }
 
 .m3-card:hover::before {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .m3-card:hover::after {
-  opacity: 0.45;
+  opacity: 0.75;
 }
 
 .m3-card:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--m3-elevation-2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
 }
+
 
 [data-theme="light"] .m3-card:hover {
   box-shadow: var(--m3-elevation-2);
