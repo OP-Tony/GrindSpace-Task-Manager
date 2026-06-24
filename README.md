@@ -94,6 +94,9 @@ You can either pull the pre-compiled image directly from Docker Hub or build the
 
 3. Visit `http://localhost:3000` to interact with the containerized application.
 
+#### Option C: Try virtually
+1. Visit the provided url:
+   `https://grindspace-task-manager.onrender.com` to interact and have a demo trail of the application.
 ---
 
 ## Production Security & Deployment Checklist
