@@ -25,6 +25,8 @@ export function initPlannerModule() {
       plannerScheduleView.classList.add('hidden');
       plannerInputView.classList.remove('hidden');
       promptInput.value = '';
+      const existing = document.getElementById('coach-plan-critique-box');
+      if (existing) existing.remove();
     });
   }
 }
@@ -52,7 +54,16 @@ async function handleGeneratePlan() {
       throw new Error(data.error || 'Server error occurred during plan generation');
     }
 
-    renderSchedule(data);
+    const blocks = Array.isArray(data) ? data : (data.schedule || []);
+    renderSchedule(blocks);
+
+    if (data.coach_comment) {
+      renderCoachComment(data.coach_comment);
+    } else {
+      const existing = document.getElementById('coach-plan-critique-box');
+      if (existing) existing.remove();
+    }
+
     plannerInputView.classList.add('hidden');
     plannerScheduleView.classList.remove('hidden');
     showToast('Structured agenda generated', 'success');
@@ -62,6 +73,26 @@ async function handleGeneratePlan() {
   } finally {
     btnGeneratePlan.disabled = false;
     if (btnText) btnText.textContent = 'Generate AI Plan';
+  }
+}
+
+function renderCoachComment(comment) {
+  const existing = document.getElementById('coach-plan-critique-box');
+  if (existing) {
+    existing.innerHTML = `<strong>Grind Coach Critique:</strong> "${escapeHTML(comment)}"`;
+  } else {
+    const critiqueBox = document.createElement('div');
+    critiqueBox.id = 'coach-plan-critique-box';
+    critiqueBox.className = 'coach-plan-critique';
+    critiqueBox.innerHTML = `<strong>Grind Coach Critique:</strong> "${escapeHTML(comment)}"`;
+    
+    // Insert after the title row but before the schedule list
+    const headRow = plannerScheduleView.querySelector('.schedule-head-row');
+    if (headRow) {
+      headRow.after(critiqueBox);
+    } else {
+      plannerScheduleView.prepend(critiqueBox);
+    }
   }
 }
 
@@ -86,3 +117,4 @@ function renderSchedule(blocks) {
     scheduleListContainer.appendChild(item);
   });
 }
+
